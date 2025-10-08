@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal de Materiais - SENAI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Barra Superior -->
+  <header>
+    <h1>📚 Portal SENAI</h1>
+    <input type="text" id="searchBar" placeholder="Buscar material..." />
+    <button onclick="filtrarMateriais()">Buscar com filtro</button>
+    <button onclick="irParaEnvio()">Enviar Material</button>
+  </header>
+
+  <!-- Lista de Materiais -->
+  <main id="materiais">
+    <!-- Os cards serão inseridos aqui via JavaScript -->
+  </main>
+
+  <!-- Barra Inferior -->
+  <footer>
+    <button onclick="irParaFerramentas()">🤖 IA</button>
+    <button onclick="irParaHome()">🏠 Home</button>
+    <button onclick="irParaEnvio()">📤 Enviar</button>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
