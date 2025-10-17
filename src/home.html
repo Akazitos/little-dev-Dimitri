@@ -7,24 +7,33 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Barra Superior -->
+  <!-- Cabeçalho -->
   <header>
-    <h1>📚 Portal SENAI</h1>
-    <input type="text" id="searchBar" placeholder="Buscar material..." />
-    <button onclick="filtrarMateriais()">Buscar com filtro</button>
-    <button onclick="irParaEnvio()">Enviar Material</button>
+    <div class="logo-bar">
+      <img src="imagens/logo-fiep.png" alt="Logo FIEP" id="logo" />
+      <input type="text" id="searchBar" placeholder="Buscar material..." />
+    </div>
+    <div class="header-buttons">
+      <button>Enviar Material <span class="icon">imag1</span></button>
+      <button>Buscar com Filtro <span class="icon">imag2</span></button>
+    </div>
   </header>
 
-  <!-- Lista de Materiais -->
+  <!-- Banner -->
+  <section class="banner">
+    <p>Organize, compartilhe e acesse materiais didáticos para educação técnica de forma eficiente.</p>
+  </section>
+
+  <!-- Cards de Materiais -->
   <main id="materiais">
-    <!-- Os cards serão inseridos aqui via JavaScript -->
+    <!-- Os cards serão inseridos via JavaScript -->
   </main>
 
-  <!-- Barra Inferior -->
+  <!-- Rodapé -->
   <footer>
-    <button onclick="irParaFerramentas()">🤖 IA</button>
-    <button onclick="irParaHome()">🏠 Home</button>
-    <button onclick="irParaEnvio()">📤 Enviar</button>
+    <button><span class="icon">imag6</span> Home</button>
+    <button><span class="icon">imag7</span> Contato</button>
+    <button><span class="icon">imag8</span> Enviar</button>
   </footer>
 
   <script src="script.js"></script>
