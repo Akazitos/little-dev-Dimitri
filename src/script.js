@@ -21,7 +21,7 @@ const materiais = [
     tamanho: "4.1MB",
     descricao: "Material completo sobre análise de circuitos elétricos com exercícios práticos.",
     tags: ["circuitos", "elétrica", "análise"],
-    icone: "imag3"
+    icone: "imag2"
   },
   {
     titulo: "Introdução à Programação Python - Módulo 1",
@@ -33,7 +33,7 @@ const materiais = [
     tamanho: "2.5MB",
     descricao: "Conceitos básicos de programação usando Python, variáveis, tipos de dados e estruturas condicionais.",
     tags: ["python", "programação", "básico"],
-    icone: "imag4"
+    icone: "imag2"
   }
 ];
 
@@ -44,8 +44,12 @@ function exibirMateriais() {
   materiais.forEach((mat) => {
     const card = document.createElement("div");
     card.className = "card";
+
+    const caminhoIcone = `imagens/icones/${mat.icone}.png`;
+
     card.innerHTML = `
-      <span class="icon">${mat.icone}</span>
+      <img src="${caminhoIcone}" alt="${mat.icone}" class="card-icon"
+           onerror="this.onerror=null;this.src='imagens/icones/default.png';" />
       <h3>${mat.titulo}</h3>
       <p><strong>Tipo:</strong> ${mat.tipo}</p>
       <p><strong>Área:</strong> ${mat.area}</p>
@@ -55,7 +59,7 @@ function exibirMateriais() {
       <p><strong>Tamanho:</strong> ${mat.tamanho}</p>
       <p>${mat.descricao}</p>
       <p><strong>Tags:</strong> ${mat.tags.join(", ")}</p>
-      <button>Visualizar <span class="icon">imag6</span></button>
+      <button>Visualizar</button>
     `;
     container.appendChild(card);
   });
