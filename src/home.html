@@ -7,48 +7,40 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Cabeçalho -->
-  <header>
-    <div class="logo-bar">
-      <img src="imagens/logo-fiep.png" alt="Logo FIEP" id="logo" />
-      <input type="text" id="searchBar" placeholder="Buscar material..." />
+  <div class="container">
+    <!-- Cabeçalho -->
+    <header>
+      <div class="logo-bar">
+        <img src="imagens/logo-fiep.png" alt="Logo FIEP" id="logo" />
+        <input type="text" id="searchBar" placeholder="Buscar material..." />
+      </div>
+      <div class="header-buttons">
+        <button>Enviar Material</button>
+        <button>
+          <img src="imagens/icones/filter.png" alt="ícone filtro" />
+          Buscar com Filtro
+        </button>
+      </div>
+    </header>
+
+    <!-- Banner -->
+    <section class="banner">
+      <p>Organize, compartilhe e acesse materiais didáticos para educação técnica de forma eficiente.</p>
+    </section>
+
+    <!-- Carrossel com setas -->
+    <div class="carrossel-container">
+      <button id="voltar"><img src="imagens/icones/left-arrow.png" alt="Seta Esquerda" /></button>
+      <div id="materiais" class="carrossel"></div>
+      <button id="avancar"><img src="imagens/icones/right-arrow.png" alt="Seta Direita" /></button>
     </div>
-    <div class="header-buttons">
-      <button>
-    
-        Enviar Material
-      </button>
-      <button>
-        <img src="imagens/icones/filter.png " alt="ícone filtro" />
-        Buscar com Filtro
-      </button>
-    </div>
-  </header>
+  </div>
 
-  <!-- Banner -->
-  <section class="banner">
-    <p>Organize, compartilhe e acesse materiais didáticos para educação técnica de forma eficiente.</p>
-  </section>
-
-  <!-- Cards de Materiais -->
-  <main id="materiais">
-    <!-- Os cards serão inseridos via JavaScript -->
-  </main>
-
-  <!-- Rodapé -->
+  <!-- Rodapé fixo -->
   <footer>
-    <button>
-      <img src="imagens/icones/microchip.png" alt="ia" />
-      
-    </button>
-    <button>
-      <img src="imagens/icones/home.png" alt="home" />
-      
-    </button>
-    <button>
-      <img src="imagens/icones/upload.png" alt="upload" />
-      
-    </button>
+    <button><img src="imagens/icones/microchip.png" alt="IA" /></button>
+    <button><img src="imagens/icones/home.png" alt="Home" /></button>
+    <button><img src="imagens/icones/upload.png" alt="Upload" /></button>
   </footer>
 
   <script src="script.js"></script>

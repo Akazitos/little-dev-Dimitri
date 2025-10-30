@@ -1,38 +1,41 @@
 const materiais = [
   {
-    titulo: "Apostila Completa - Banco de Dados MySQL",
+    titulo: "Apostila Completa - Banco de Dados (MySQL)",
     tipo: "Apostila",
     area: "Informática",
     disciplina: "Banco de Dados",
-    professor: "Profª. Ana Costa",
-    data: "2024-03-01",
-    tamanho: "8.7MB",
-    descricao: "Apostila completa sobre MySQL com exemplos práticos e exercícios resolvidos.",
-    tags: ["mysql", "banco-dados", "sql"],
+    professor: "João Carlos",
+    instituicao: "Senai São Paulo",
+    tamanho: "1.1 MB",
+    formato: "PDF",
+    data: "12/06/2023",
+    tags: ["mysql", "banco de dados"],
     icone: "imag2"
   },
   {
     titulo: "Apostila Completa - Circuitos Elétricos",
     tipo: "Apostila",
-    area: "Eletrônica",
+    area: "Elétrica",
     disciplina: "Circuitos Elétricos",
-    professor: "Profª. Maria Santos",
-    data: "2024-03-01",
-    tamanho: "4.1MB",
-    descricao: "Material completo sobre análise de circuitos elétricos com exercícios práticos.",
-    tags: ["circuitos", "elétrica", "análise"],
+    professor: "Ana Costa",
+    instituicao: "Senai São Paulo",
+    tamanho: "1.5 MB",
+    formato: "PDF",
+    data: "12/06/2023",
+    tags: ["circuitos", "elétrica"],
     icone: "imag2"
   },
   {
     titulo: "Introdução à Programação Python - Módulo 1",
-    tipo: "Plano de Aula",
+    tipo: "Apostila",
     area: "Informática",
     disciplina: "Programação",
-    professor: "Prof. João Silva",
-    data: "2024-03-15",
-    tamanho: "2.5MB",
-    descricao: "Conceitos básicos de programação usando Python, variáveis, tipos de dados e estruturas condicionais.",
-    tags: ["python", "programação", "básico"],
+    professor: "Pedro Lima",
+    instituicao: "Senai São Paulo",
+    tamanho: "1.2 MB",
+    formato: "PDF",
+    data: "12/06/2023",
+    tags: ["python", "programação"],
     icone: "imag2"
   }
 ];
@@ -55,9 +58,10 @@ function exibirMateriais() {
       <p><strong>Área:</strong> ${mat.area}</p>
       <p><strong>Disciplina:</strong> ${mat.disciplina}</p>
       <p><strong>Professor:</strong> ${mat.professor}</p>
+      <p><strong>Instituição:</strong> ${mat.instituicao}</p>
       <p><strong>Data:</strong> ${mat.data}</p>
       <p><strong>Tamanho:</strong> ${mat.tamanho}</p>
-      <p>${mat.descricao}</p>
+      <p><strong>Formato:</strong> ${mat.formato}</p>
       <p><strong>Tags:</strong> ${mat.tags.join(", ")}</p>
       <button>Visualizar</button>
     `;
@@ -65,4 +69,24 @@ function exibirMateriais() {
   });
 }
 
+function configurarNavegacao() {
+  const container = document.getElementById("materiais");
+  const btnAvancar = document.getElementById("avancar");
+  const btnVoltar = document.getElementById("voltar");
+
+  if (btnAvancar && btnVoltar && container) {
+    btnAvancar.addEventListener("click", () => {
+      container.scrollBy({ left: 300, behavior: "smooth" });
+    });
+
+    btnVoltar.addEventListener("click", () => {
+      container.scrollBy({ left: -300, behavior: "smooth" });
+    });
+  } else {
+    console.error("Botões ou container não encontrados.");
+  }
+}
+
+// Inicialização
 exibirMateriais();
+configurarNavegacao();
