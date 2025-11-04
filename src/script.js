@@ -1,70 +1,30 @@
-const materiais = [
-  {
-    titulo: "Apostila Completa - Banco de Dados (MySQL)",
-    tipo: "Apostila",
-    area: "Informática",
-    disciplina: "Banco de Dados",
-    professor: "João Carlos",
-    instituicao: "Senai São Paulo",
-    tamanho: "1.1 MB",
-    formato: "PDF",
-    data: "12/06/2023",
-    tags: ["mysql", "banco de dados"],
-    icone: "imag2"
-  },
-  {
-    titulo: "Apostila Completa - Circuitos Elétricos",
-    tipo: "Apostila",
-    area: "Elétrica",
-    disciplina: "Circuitos Elétricos",
-    professor: "Ana Costa",
-    instituicao: "Senai São Paulo",
-    tamanho: "1.5 MB",
-    formato: "PDF",
-    data: "12/06/2023",
-    tags: ["circuitos", "elétrica"],
-    icone: "imag2"
-  },
-  {
-    titulo: "Apostila Completa - Circuitos Elétricos",
-    tipo: "Apostila",
-    area: "Elétrica",
-    disciplina: "Circuitos Elétricos",
-    professor: "Ana Costa",
-    instituicao: "Senai São Paulo",
-    tamanho: "1.5 MB",
-    formato: "PDF",
-    data: "12/06/2023",
-    tags: ["circuitos", "elétrica"],
-    icone: "imag2"
-  },
-  {
-    titulo: "Apostila Completa - Circuitos Elétricos",
-    tipo: "Apostila",
-    area: "Elétrica",
-    disciplina: "Circuitos Elétricos",
-    professor: "Ana Costa",
-    instituicao: "Senai São Paulo",
-    tamanho: "1.5 MB",
-    formato: "PDF",
-    data: "12/06/2023",
-    tags: ["circuitos", "elétrica"],
-    icone: "imag2"
-  },
-  {
-    titulo: "Introdução à Programação Python - Módulo 1",
-    tipo: "Apostila",
-    area: "Informática",
-    disciplina: "Programação",
-    professor: "Pedro Lima",
-    instituicao: "Senai São Paulo",
-    tamanho: "1.2 MB",
-    formato: "PDF",
-    data: "12/06/2023",
-    tags: ["python", "programação"],
-    icone: "imag2"
+// script.js (Corrigido para buscar dados da API)
+
+let materiais = []; // Variável global para armazenar os dados do banco de dados
+
+// Função para buscar materiais da API
+async function buscarMateriais() {
+  try {
+    const response = await fetch('/api/materiais'); 
+    
+    if (!response.ok) {
+      // Se a resposta HTTP não for 200, lançamos um erro
+      throw new Error(`Erro de rede ou servidor! Status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    materiais = data; // Armazena os dados vindos do backend
+    
+    exibirMateriais(materiais); 
+    popularFiltros(materiais);
+    
+  } catch (error) {
+    console.error('Erro ao buscar materiais:', error);
+    const container = document.getElementById("materiais");
+    // Mensagem de erro para o usuário
+    container.innerHTML = '<p style="margin: 20px; color: red; font-size: 1.2em;">❌ Erro ao carregar materiais. Verifique se o servidor Node.js e o MySQL estão rodando corretamente.</p>';
   }
-];
+}
 
 function exibirMateriais(lista = materiais) {
   const container = document.getElementById("materiais");
@@ -79,7 +39,8 @@ function exibirMateriais(lista = materiais) {
     const card = document.createElement("div");
     card.className = "card";
 
-    const caminhoIcone = `imagens/icones/${mat.icone}.png`;
+    // O ícone 'imag2' é o valor padrão que vem da formatação no controller.
+    const caminhoIcone = `imagens/icones/${mat.icone || 'default'}.png`; 
 
     card.innerHTML = `
       <img src="${caminhoIcone}" alt="${mat.icone}" class="card-icon"
@@ -135,7 +96,11 @@ const btnFiltro = document.getElementById("btnBuscarFiltro");
 const spanClose = document.getElementsByClassName("close-button")[0];
 const btnAplicarFiltro = document.getElementById("aplicarFiltro");
 
+// Funções popularFiltros e aplicarFiltros ajustadas para usar a variável 'materiais' global
 function popularFiltros() {
+  // Garantimos que 'materiais' está populado antes de tentar extrair os filtros
+  if (materiais.length === 0) return; 
+
   const tipos = [...new Set(materiais.map(m => m.tipo))];
   const areas = [...new Set(materiais.map(m => m.area))];
   const disciplinas = [...new Set(materiais.map(m => m.disciplina))];
@@ -178,7 +143,7 @@ function aplicarFiltros() {
 
 function configurarModal() {
   btnFiltro.onclick = function() {
-    popularFiltros();
+    popularFiltros(); // Chamada após obter os dados
     modal.style.display = "block";
   };
 
@@ -207,8 +172,11 @@ function configurarEnvio() {
   if (btnFooterUpload) btnFooterUpload.addEventListener("click", irParaEnvio);
 }
 
-exibirMateriais();
-configurarNavegacao();
-configurarBusca();
-configurarModal();
-configurarEnvio();
+// Inicialização: Chama a função de busca da API quando a página carrega
+document.addEventListener('DOMContentLoaded', () => {
+    buscarMateriais();
+    configurarNavegacao();
+    configurarBusca();
+    configurarModal();
+    configurarEnvio();
+});

@@ -10,6 +10,14 @@ header {
   flex-direction: column;
   align-items: center;
 }
+/* Banner */
+.banner {
+  background-color: rgba(124, 124, 124, 0.562);
+  padding: 15px;
+  text-align: center;
+  font-size: 1.1em;
+  color: #333;
+}
 
 .logo-bar {
   display: flex;
