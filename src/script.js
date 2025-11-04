@@ -55,7 +55,9 @@ function exibirMateriais(lista = materiais) {
       <p><strong>Tamanho:</strong> ${mat.tamanho}</p>
       <p><strong>Formato:</strong> ${mat.formato}</p>
       <p><strong>Tags:</strong> ${mat.tags.join(", ")}</p>
-      <button>Visualizar</button>
+      <button onclick="window.open('/api/materiais/${mat.id_material}/download', '_blank')">
+      Visualizar
+  </button>
     `;
     container.appendChild(card);
   });

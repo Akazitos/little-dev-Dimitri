@@ -1,5 +1,5 @@
 // materialController.js
-const connection = require('./db');
+const connection = require('../models/db');
 const multer = require('multer'); 
 
 // --- Configuração do Multer (Armazenamento em Memória para LONGBLOB) ---
@@ -37,25 +37,25 @@ exports.getMateriais = (req, res) => {
         
         // Processar resultados para o formato esperado pelo frontend (script.js)
         const materiaisFormatados = results.map(row => ({
+            id_material: row.id_material,  
             titulo: row.titulo,
             tipo: row.tipo,
             area: row.area,
             disciplina: row.disciplina,
             professor: row.professor,
-            instituicao: 'SENAI', 
-            tamanho: 'N/A', 
+            instituicao: 'SENAI',
+            tamanho: 'N/A',
             formato: row.nome_arquivo ? row.nome_arquivo.split('.').pop().toUpperCase() : 'N/A',
             data: new Date(row.data).toLocaleDateString('pt-BR'),
             tags: row.tags_str ? row.tags_str.split(', ') : [],
-            icone: 'imag2' 
+            icone: 'imag2'
         }));
         res.json(materiaisFormatados);
     });
 };
 
-/**
- * Rota para fazer o upload do material (POST /api/materiais/enviar)
- */
+/// materialController.js (APENAS A FUNÇÃO uploadMaterial)
+
 exports.uploadMaterial = (req, res) => {
     upload(req, res, async function (err) {
         if (err) {
@@ -69,45 +69,73 @@ exports.uploadMaterial = (req, res) => {
         if (!arquivo) {
             return res.status(400).json({ message: 'Nenhum arquivo enviado.' });
         }
-        
-        // Simulação de busca/criação de IDs (SUBSTITUA POR LÓGICA REAL DE DB)
-        // Usando IDs fixos (1) para simplificar a inserção, mas isso deve ser melhorado.
-        const idProfessor = 1; 
-        const idArea = 1; 
-        const idDisciplina = 1;
-        const tagsArray = tags ? tags.split(',').map(tag => tag.trim().toLowerCase()).filter(t => t.length > 0) : [];
+
+        const tagsArray = tags ? tags.split(',').map(t => t.trim().toLowerCase()).filter(t => t) : [];
 
         try {
-            const insertMaterialQuery = `
+            const promiseConn = connection.promise();
+
+            // 1. Professor
+            let [profRows] = await promiseConn.query('SELECT id_professor FROM professores WHERE nome = ?', [professor]);
+            let idProfessor;
+            if (profRows.length === 0) {
+                const [result] = await promiseConn.query('INSERT INTO professores (nome) VALUES (?)', [professor]);
+                idProfessor = result.insertId;
+            } else {
+                idProfessor = profRows[0].id_professor;
+            }
+
+            // 2. Área
+            let [areaRows] = await promiseConn.query('SELECT id_area FROM areas WHERE nome = ?', [area]);
+            let idArea;
+            if (areaRows.length === 0) {
+                const [result] = await promiseConn.query('INSERT INTO areas (nome) VALUES (?)', [area]);
+                idArea = result.insertId;
+            } else {
+                idArea = areaRows[0].id_area;
+            }
+
+            // 3. Disciplina
+            let [discRows] = await promiseConn.query('SELECT id_disciplina FROM disciplinas WHERE nome = ? AND id_area = ?', [disciplina, idArea]);
+            let idDisciplina;
+            if (discRows.length === 0) {
+                const [result] = await promiseConn.query('INSERT INTO disciplinas (nome, id_area) VALUES (?, ?)', [disciplina, idArea]);
+                idDisciplina = result.insertId;
+            } else {
+                idDisciplina = discRows[0].id_disciplina;
+            }
+
+            // 4. Inserir Material
+            const [matResult] = await promiseConn.query(`
                 INSERT INTO materiais 
                 (titulo, tipo_material, descricao, data_upload, nome_arquivo, tipo_mime, dados, id_professor, id_area, id_disciplina)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            `;
-            const materialValues = [
-                titulo, tipo_material, descricao, data, arquivo.originalname, arquivo.mimetype, arquivo.buffer, idProfessor, idArea, idDisciplina
-            ];
+            `, [
+                titulo, tipo_material, descricao, data || null, 
+                arquivo.originalname, arquivo.mimetype, arquivo.buffer, 
+                idProfessor, idArea, idDisciplina
+            ]);
 
-            const [result] = await connection.promise().query(insertMaterialQuery, materialValues);
-            const idMaterial = result.insertId;
+            const idMaterial = matResult.insertId;
 
-            // Inserir Tags (Lógica simplificada)
+            // 5. Inserir Tags
             for (const tagName of tagsArray) {
-                let [tagResult] = await connection.promise().query('SELECT id_tag FROM tags WHERE nome = ?', [tagName]);
+                let [tagRows] = await promiseConn.query('SELECT id_tag FROM tags WHERE nome = ?', [tagName]);
                 let idTag;
-                if (tagResult.length === 0) {
-                    const [insertTagResult] = await connection.promise().query('INSERT INTO tags (nome) VALUES (?)', [tagName]);
-                    idTag = insertTagResult.insertId;
+                if (tagRows.length === 0) {
+                    const [result] = await promiseConn.query('INSERT INTO tags (nome) VALUES (?)', [tagName]);
+                    idTag = result.insertId;
                 } else {
-                    idTag = tagResult[0].id_tag;
+                    idTag = tagRows[0].id_tag;
                 }
-                await connection.promise().query('INSERT INTO materiais_tags (id_material, id_tag) VALUES (?, ?)', [idMaterial, idTag]);
+                await promiseConn.query('INSERT INTO materiais_tags (id_material, id_tag) VALUES (?, ?)', [idMaterial, idTag]);
             }
 
             res.status(201).json({ message: 'Material enviado com sucesso!', id: idMaterial });
 
         } catch (dbError) {
-            console.error('Erro ao inserir no banco de dados:', dbError);
-            res.status(500).json({ message: 'Erro ao salvar material no banco de dados.' });
+            console.error('Erro no banco:', dbError);
+            res.status(500).json({ message: 'Erro ao salvar no banco de dados.' });
         }
     });
 };
