@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enviar Material - SENAI</title>
+  <link rel="stylesheet" href="style_envio.css" />
+</head>
+<body>
+  <div class="container-envio">
+    <header class="header-envio">
+      <div class="logo-bar-envio">
+        <span class="sistema-nome">Sistema Fiep <span class="senai-nome">SENAI</span></span>
+      </div>
+    </header>
+
+    <main>
+      <h2 class="titulo-pagina">Enviar Material</h2>
+      <p class="subtitulo">Compartilhe seus planos de aula e materiais didáticos com a comunidade educacional.</p>
+
+      <form id="formEnvio" class="form-envio">
+        <h3>Informações Básicas</h3>
+        
+        <div class="grid-campos">
+          <div class="campo">
+            <label for="titulo">Título</label>
+            <input type="text" id="titulo" name="titulo" placeholder="ex: Introdução..." required>
+          </div>
+          <div class="campo">
+            <label for="tipo_material">Tipo de Material</label>
+            <select id="tipo_material" name="tipo_material" required>
+              <option value="">selecione o tipo</option>
+              <option value="Apostila">Apostila</option>
+              <option value="Plano de Aula">Plano de Aula</option>
+              <option value="Material Didático">Material Didático</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="area">Área</label>
+            <select id="area" name="area" required>
+              <option value="">selecione a área</option>
+              <option value="Informatica">Informática</option>
+              <option value="Eletrica">Elétrica</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="disciplina">Disciplina</label>
+            <select id="disciplina" name="disciplina" required>
+              <option value="">selecione o tipo</option>
+              <option value="BD">Banco de Dados</option>
+              <option value="Circuitos">Circuitos Elétricos</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="data">Data</label>
+            <input type="date" id="data" name="data" required>
+          </div>
+          <div class="campo">
+            <label for="professor">Professor</label>
+            <input type="text" id="professor" name="professor" placeholder="nome do professor" required>
+          </div>
+          <div class="campo campo-tags">
+            <label for="tags">Tags</label>
+            <input type="text" id="tags" name="tags" placeholder="adicionar tags (ex: python, web)">
+          </div>
+        </div>
+        
+        <div class="campo-full">
+          <label for="descricao">Descrição</label>
+          <textarea id="descricao" name="descricao" rows="4" placeholder="uma descrição breve sobre o material" required></textarea>
+        </div>
+
+        <div class="upload-area">
+          <img src="imagens/icones/upload-lg.png" alt="Ícone de Upload" class="upload-icon">
+          <p>Arraste e solte seus arquivos aqui</p>
+          <button type="button" class="btn-selecionar">Selecionar Arquivos</button>
+          <input type="file" id="arquivo" name="arquivo" multiple style="display: none;">
+          <p class="formatos-aceitos">Formatos aceitos: PDF, DOC, DOCX, PPT, PPTX, TXT, EPUB (máx. 50MB por arquivo)</p>
+        </div>
+
+        <div class="footer-buttons-envio">
+          <button type="button" onclick="window.location.href='home.html'"><img src="imagens/icones/home-dark.png" alt="Home"></button>
+          <button type="submit" class="btn-finalizar-upload"><img src="imagens/icones/upload-white.png" alt="Upload"> Enviar Material</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    // Aciona o input de arquivo ao clicar no botão
+    document.querySelector('.btn-selecionar').addEventListener('click', function() {
+      document.getElementById('arquivo').click();
+    });
+  </script>
+</body>
+</html>

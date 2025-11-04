@@ -8,27 +8,24 @@
 </head>
 <body>
   <div class="container">
-    <!-- Cabeçalho -->
     <header>
       <div class="logo-bar">
         <img src="imagens/logo-fiep.png" alt="Logo FIEP" id="logo" />
         <input type="text" id="searchBar" placeholder="Buscar material..." />
       </div>
       <div class="header-buttons">
-        <button>Enviar Material</button>
-        <button>
+        <button id="btnEnviarMaterial">Enviar Material</button>
+        <button id="btnBuscarFiltro">
           <img src="imagens/icones/filter.png" alt="ícone filtro" />
           Buscar com Filtro
         </button>
       </div>
     </header>
 
-    <!-- Banner -->
     <section class="banner">
       <p>Organize, compartilhe e acesse materiais didáticos para educação técnica de forma eficiente.</p>
     </section>
 
-    <!-- Carrossel com setas -->
     <div class="carrossel-container">
       <button id="voltar"><img src="imagens/icones/left-arrow.png" alt="Seta Esquerda" /></button>
       <div id="materiais" class="carrossel"></div>
@@ -36,12 +33,46 @@
     </div>
   </div>
 
-  <!-- Rodapé fixo -->
-  <footer>
-    <button><img src="imagens/icones/microchip.png" alt="IA" /></button>
-    <button><img src="imagens/icones/home.png" alt="Home" /></button>
-    <button><img src="imagens/icones/upload.png" alt="Upload" /></button>
-  </footer>
+  <div id="modalFiltro" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h3>Filtrar Materiais</h3>
+
+      <div class="filtro-group">
+        <label for="filtroTags">Tags (separadas por vírgula):</label>
+        <input type="text" id="filtroTags" placeholder="ex: python, mysql" />
+      </div>
+
+      <div class="filtro-group">
+        <label for="filtroTipo">Tipo de Material:</label>
+        <select id="filtroTipo">
+          <option value="">Todos</option>
+        </select>
+      </div>
+
+      <div class="filtro-group">
+        <label for="filtroArea">Área:</label>
+        <select id="filtroArea">
+          <option value="">Todas</option>
+        </select>
+      </div>
+
+      <div class="filtro-group">
+        <label for="filtroDisciplina">Disciplina:</label>
+        <select id="filtroDisciplina">
+          <option value="">Todas</option>
+        </select>
+      </div>
+
+      <button id="aplicarFiltro">Aplicar Filtros</button>
+    </div>
+  </div>
+
+ <footer>
+  <button onclick="window.location.href='ferramentas_ia.html'"><img src="imagens/icones/microchip.png" alt="IA" /></button>
+  <button onclick="window.location.href='home.html'"><img src="imagens/icones/home.png" alt="Home" /></button>
+  <button id="btnFooterUpload" onclick="window.location.href='enviar_material.html'"><img src="imagens/icones/upload.png" alt="Upload" /></button>
+</footer>
 
   <script src="script.js"></script>
 </body>
